@@ -1,17 +1,20 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import './App.css';
+import React, { useEffect, useState, useCallback } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import "./App.css";
 
 // Helper functions
-const getSteamId = (identifiers) => identifiers.find(id => id.startsWith('steam:')) || null;
+const getSteamId = (identifiers) =>
+  identifiers.find((id) => id.startsWith("steam:")) || null;
 
 const getDiscordId = (identifiers) => {
-  const discordIdentifier = identifiers.find(id => id.startsWith('discord:'));
-  return discordIdentifier ? discordIdentifier.split(':')[1] : null;
+  const discordIdentifier = identifiers.find((id) => id.startsWith("discord:"));
+  return discordIdentifier ? discordIdentifier.split(":")[1] : null;
 };
 
 const fetchDiscordData = async (discordId) => {
-  const response = await fetch(`https://discordlookup.mesalytic.moe/v1/user/${discordId}`);
+  const response = await fetch(
+    `https://discordlookup.mesalytic.moe/v1/user/${discordId}`
+  );
   return response.json();
 };
 
@@ -21,24 +24,27 @@ const App = () => {
   const [visiblePlayers, setVisiblePlayers] = useState([]);
   const [discordData, setDiscordData] = useState({});
   const [openDetails, setOpenDetails] = useState({});
-  const [itemsPerPage, setItemsPerPage] = useState(20);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [searchTerm, setSearchTerm] = useState("");
   const [modalAvatarUrl, setModalAvatarUrl] = useState(null);
   const [isCardOpen, setIsCardOpen] = useState(true); // State for card visibility
 
   // Fetch server data
   const fetchServerData = useCallback(async () => {
     try {
-      const response = await fetch('https://servers-frontend.fivem.net/api/servers/single/4ylb3o');
+      const response = await fetch(
+        "https://servers-frontend.fivem.net/api/servers/single/4ylb3o"
+      );
       const data = await response.json();
-      const sortedPlayers = (data.Data?.players || []).sort((a, b) => a.id - b.id); // Sort players by smallest ID
+      const sortedPlayers = (data.Data?.players || []).sort(
+        (a, b) => a.id - b.id
+      ); // Sort players by smallest ID
       setServerInfo(data.Data || {});
       setPlayers(sortedPlayers); // Set sorted players
     } catch (error) {
-      console.error('Error fetching FiveM data:', error);
+      console.error("Error fetching FiveM data:", error);
     }
   }, []);
-  
 
   // Fetch Discord data for each player
   const fetchPlayersDiscordData = useCallback(async (players) => {
@@ -51,7 +57,10 @@ const App = () => {
             const data = await fetchDiscordData(discordId);
             discordInfo[discordId] = data;
           } catch (error) {
-            console.error(`Error fetching Discord data for ID ${discordId}:`, error);
+            console.error(
+              `Error fetching Discord data for ID ${discordId}:`,
+              error
+            );
           }
         }
       })
@@ -71,7 +80,7 @@ const App = () => {
 
   // Update visible players based on search term and items per page
   useEffect(() => {
-    const filteredPlayers = players.filter(player =>
+    const filteredPlayers = players.filter((player) =>
       player.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setVisiblePlayers(filteredPlayers.slice(0, itemsPerPage));
@@ -79,7 +88,7 @@ const App = () => {
 
   // Handle player detail toggle
   const handlePlayerClick = (id) => {
-    setOpenDetails(prevState => ({ ...prevState, [id]: !prevState[id] }));
+    setOpenDetails((prevState) => ({ ...prevState, [id]: !prevState[id] }));
   };
 
   // Handle filter change (items per page)
@@ -98,7 +107,7 @@ const App = () => {
   const closeModal = () => setModalAvatarUrl(null);
 
   // Toggle floating card visibility
-  const toggleCard = () => setIsCardOpen(prevState => !prevState);
+  const toggleCard = () => setIsCardOpen((prevState) => !prevState);
 
   // Player Card Component
   const PlayerCard = ({ player, discordUser, avatarUrl, steamId }) => (
@@ -114,12 +123,15 @@ const App = () => {
         src={avatarUrl}
         alt="Discord Avatar"
         className="rounded-full w-16 h-16 mb-2 cursor-pointer"
-        onClick={(e) => { e.stopPropagation(); openAvatarModal(avatarUrl); }}
+        onClick={(e) => {
+          e.stopPropagation();
+          openAvatarModal(avatarUrl);
+        }}
       />
       <p className="font-semibold text-lg">{player.name}</p>
       <p className="text-gray-500 text-sm">
-  <i className="fab fa-discord mr-2"></i>@{discordUser.username || '-'}
-</p>
+        <i className="fab fa-discord mr-2"></i>@{discordUser.username || "-"}
+      </p>
 
       {openDetails[player.id] && (
         <div className="mt-4 text-left w-full bg-gray-50 p-3 rounded-lg shadow-inner transition-all duration-500 ease-in-out">
@@ -140,18 +152,19 @@ const App = () => {
         {/* Floating Card */}
         <div
           className={`fixed bottom-8 left-8 bg-white p-6 rounded-lg shadow-lg z-50 transition-transform transform ${
-            isCardOpen ? 'translate-x-0' : '-translate-x-full'
+            isCardOpen ? "translate-x-0" : "-translate-x-full"
           }`} // Apply slide animation based on isCardOpen state
         >
           <div className="relative flex justify-between items-center">
             <div className="text-2xl">
-              <h4>Total Players</h4> {serverInfo.clients || 0} / {serverInfo.svMaxclients}
+              <h4>Total Players</h4> {serverInfo.clients || 0} /{" "}
+              {serverInfo.svMaxclients}
             </div>
             <div className="absolute top-1/2 right-[-48px]">
               <button
                 onClick={toggleCard}
                 className="bg-gray-800 text-white p-3 focus:outline-none shadow-md flex justify-center items-center"
-                style={{ width: '42px', height: '42px', borderRadius: '50px' }}
+                style={{ width: "42px", height: "42px", borderRadius: "50px" }}
               >
                 {isCardOpen ? (
                   <ChevronLeft className="text-white" size={52} />
@@ -162,9 +175,16 @@ const App = () => {
             </div>
           </div>
           <div className="flex items-center mb-4">
-            <p className="text-1xl"><h5>Join the City ►</h5></p>
+            <p className="text-1xl">
+              <h5>Join the City ►</h5>
+            </p>
             {serverInfo.vars?.Discord && (
-              <a href={serverInfo.vars.Discord} target="_blank" rel="noopener noreferrer" className="text-blue-600 ml-2">
+              <a
+                href={serverInfo.vars.Discord}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 ml-2"
+              >
                 Discord
               </a>
             )}
@@ -172,29 +192,36 @@ const App = () => {
         </div>
 
         {/* Server Banner */}
-        <div id="server-info" className="mb-8 bg-white p-6 rounded-lg shadow-md">
-          <img src={serverInfo.vars?.banner_connecting || ''} alt="Connecting Banner" className="w-full h-auto rounded-lg" />
+        <div id="server-info" className="mb-8  shadow-xl">
+          <img
+            src={serverInfo.vars?.banner_connecting || ""}
+            alt="Connecting Banner"
+            className="w-full h-auto rounded-lg"
+          />
         </div>
 
         {/* Filters and Search */}
         <div className="mb-4 flex flex-col sm:flex-row sm:justify-between items-start sm:items-center">
           <div className="flex items-center mb-4 sm:mb-0">
-            <label htmlFor="items-per-page" className="mr-2 text-lg">Show:</label>
+            <label htmlFor="items-per-page" className="mr-2 text-lg">
+              Show Player:
+            </label>
             <select
               id="items-per-page"
               className="p-2 border border-gray-300 rounded-lg"
               onChange={handleFilterChange}
-              value={itemsPerPage === players.length ? 'all' : itemsPerPage}
+              value={itemsPerPage === players.length ? "all" : itemsPerPage}
             >
+              <option value="5">5</option>
               <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
+              <option value="15">15</option>
               <option value="all">All</option>
             </select>
           </div>
           <div className="flex items-center">
-            <label htmlFor="search-box" className="mr-2 text-lg">Search:</label>
+            <label htmlFor="search-box" className="mr-2 text-lg">
+              Search:
+            </label>
             <input
               id="search-box"
               type="text"
@@ -206,12 +233,15 @@ const App = () => {
           </div>
         </div>
 
-        <h3 className="mb-4 text-xl font-semibold text-gray-700">Player List</h3>
+        <h3 className="mb-4 text-xl font-semibold text-gray-700">
+          Player List
+        </h3>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {visiblePlayers.map((player) => {
             const discordId = getDiscordId(player.identifiers);
             const discordUser = discordData[discordId] || {};
-            const avatarUrl = discordUser.avatar?.link || 'https://via.placeholder.com/64';
+            const avatarUrl =
+              discordUser.avatar?.link || "https://via.placeholder.com/64";
             const steamId = getSteamId(player.identifiers);
 
             return (
@@ -229,8 +259,15 @@ const App = () => {
 
       {/* Avatar Modal */}
       {modalAvatarUrl && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50" onClick={closeModal}>
-          <img src={modalAvatarUrl} alt="Avatar" className="max-w-full max-h-full object-contain" />
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+          onClick={closeModal}
+        >
+          <img
+            src={modalAvatarUrl}
+            alt="Avatar"
+            className="max-w-full max-h-full object-contain"
+          />
         </div>
       )}
     </div>
