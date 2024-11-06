@@ -1,6 +1,6 @@
 /* Base styling */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .bg-gray-100 {
@@ -161,6 +161,20 @@ h3 {
     font-size: 0.75rem;
   }
 }
+
+/* Animasi transisi card floating */
+.transition-transform {
+  transition: transform 0.3s ease-in-out;
+}
+
+.translate-x-full {
+  transform: translateX(100%); /* Adjusted for right sliding */
+}
+
+.translate-x-0 {
+  transform: translateX(0);
+}
+
 
 /* Additional responsive tweaks for mobile */
 @media (max-width: 480px) {
