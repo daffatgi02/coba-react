@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react'; // Import Lucide icons
 import './App.css';
 
 const getSteamId = identifiers => {
@@ -25,6 +26,7 @@ const App = () => {
   const [itemsPerPage, setItemsPerPage] = useState(20);
   const [searchTerm, setSearchTerm] = useState('');
   const [modalAvatarUrl, setModalAvatarUrl] = useState(null);
+  const [isCardOpen, setIsCardOpen] = useState(true); // State for card visibility
 
   const fetchServerData = useCallback(async () => {
     try {
@@ -94,23 +96,53 @@ const App = () => {
     setModalAvatarUrl(null);
   };
 
+  const toggleCard = () => {
+    setIsCardOpen(prevState => !prevState);
+  };
+
   return (
     <div className="bg-gray-100 min-h-screen p-5">
       <div className="container mx-auto">
-        <h1 className="text-center text-3xl font-bold mb-6 text-gray-800">SERVER STATUS</h1>
+        {/* Floating Card */}
+        <div
+          className={`fixed bottom-8 left-8 bg-white p-6 rounded-lg shadow-lg z-50 transition-transform transform ${
+            isCardOpen ? 'translate-x-0' : '-translate-x-full'
+          }`} // Apply slide animation based on isCardOpen state (opens from left)
+        >
+          <div className="relative flex justify-between items-center">
+            <div className="text-2xl">
+              <h4>Total Players</h4> {serverInfo.clients || 0} / {serverInfo.svMaxclients}
+            </div>
+            <div className="absolute top-1/2 right-[-48px]">
+  <button
+    onClick={toggleCard}
+    className="bg-gray-800 text-white p-3 focus:outline-none shadow-md flex justify-center items-center"
+    style={{ 
+      width: '42px',
+      height: '42px',
+      borderRadius: '50px' // Customizable border-radius
+    }}
+  >
+    {isCardOpen ? (
+      <ChevronLeft className="text-white" size={52} />
+    ) : (
+      <ChevronRight className="text-white" size={52} />
+    )}
+  </button>
+</div>
 
-        <div id="server-info" className="mb-8 bg-white p-6 rounded-lg shadow-md">
-          <p className="text-lg">
-            <strong>Total Players ►</strong> {serverInfo.clients || 0} / {serverInfo.svMaxclients}
-          </p>
+          </div>
           <div className="flex items-center mb-4">
-            <p className="text-lg"><strong>Join the City ►</strong></p>
+            <p className="text-1xl"><h5>Join the City ►</h5></p>
             {serverInfo.vars?.Discord && (
               <a href={serverInfo.vars.Discord} target="_blank" rel="noopener noreferrer" className="text-blue-600 ml-2">
-                Join Discord
+                Discord
               </a>
             )}
           </div>
+        </div>
+
+        <div id="server-info" className="mb-8 bg-white p-6 rounded-lg shadow-md">
           <img src={serverInfo.vars?.banner_connecting || ''} alt="Connecting Banner" className="w-full h-auto rounded-lg" />
         </div>
 
@@ -165,17 +197,8 @@ const App = () => {
       </div>
 
       {modalAvatarUrl && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={closeModal}>
-          <div className="relative bg-white p-5 rounded-lg shadow-lg max-w-2xl w-full mx-4" onClick={(e) => e.stopPropagation()}>
-            <button 
-              onClick={closeModal}
-              className="absolute -top-2 -right-2 w-8 h-8 flex items-center justify-center bg-red-500 hover:bg-red-600 text-white rounded-full transform translate-x-1/2 -translate-y-1/2 transition-colors duration-200"
-              aria-label="Close modal"
-            >
-              ×
-            </button>
-            <img src={modalAvatarUrl} alt="Large Avatar" className="w-full h-auto rounded-lg" />
-          </div>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50" onClick={closeModal}>
+          <img src={modalAvatarUrl} alt="Avatar" className="max-w-full max-h-full object-contain" />
         </div>
       )}
     </div>
