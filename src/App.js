@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import FloatCard from "./FloatCard"; // Import FloatCard component
 
 // Helper functions
 const getSteamId = (steamProfileUrl) => steamProfileUrl || null;
@@ -122,52 +122,13 @@ const App = () => {
   );
 
   return (
-    <div className="bg-gray-100 min-h-screen p-5">
+    <div className="bg-white min-h-screen p-5 pb-20">
       <div className="container mx-auto">
         {/* Floating Card */}
-        <div
-          className={`fixed bottom-8 left-8 bg-white p-6 rounded-lg shadow-lg z-50 transition-transform transform ${
-            isCardOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
-        >
-          <div className="relative flex justify-between items-center">
-            <div className="text-2xl">
-              <h4>Total Players</h4> {serverInfo.totalplayer || 0} /{" "}
-              {serverInfo.maxplayer}
-            </div>
-            <div className="absolute top-1/2 right-[-48px]">
-              <button
-                onClick={toggleCard}
-                className="bg-gray-800 text-white p-3 focus:outline-none shadow-md flex justify-center items-center"
-                style={{ width: "42px", height: "42px", borderRadius: "50px" }}
-              >
-                {isCardOpen ? (
-                  <ChevronLeft className="text-white" size={52} />
-                ) : (
-                  <ChevronRight className="text-white" size={52} />
-                )}
-              </button>
-            </div>
-          </div>
-          <div className="flex items-center mb-4">
-            <p className="text-1xl">
-              <h5>Join the City ►</h5>
-            </p>
-            {serverInfo.discord && (
-              <a
-                href={serverInfo.discord}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 ml-2"
-              >
-                Discord
-              </a>
-            )}
-          </div>
-        </div>
+        <FloatCard isCardOpen={isCardOpen} toggleCard={toggleCard} serverInfo={serverInfo} />
 
         {/* Server Banner */}
-        <div id="server-info" className="mb-8 shadow-xl">
+        <div id="server-info" className="mb-8 shadow-2xl">
           <a
             href="https://discord.com/invite/primeindonesia"
             target="_blank"
