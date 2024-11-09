@@ -25,16 +25,19 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   }
   
-  /* For small screens (mobile devices) */
-  @media (max-width: 640px) {
-    .carousel-container {
-      height: 30vh; /* Smaller height for mobile */
-    }
-  
-    .carousel-image {
-      transform: scale(0.8); /* Slightly smaller images on mobile */
-    }
+/* For small screens (mobile) */
+@media (max-width: 640px) {
+  .carousel-container {
+    height: 30vh; /* Adjust height for mobile */
+    overflow: hidden; /* Prevent content overflow */
   }
+
+  .carousel-image {
+    transform: scale(0.8); /* Slightly smaller image on mobile */
+    /* Remove pointer-events: none; to enable zoom */
+  }
+}
+
   
   /* For medium screens (tablets and large phones) */
   @media (max-width: 768px) {
