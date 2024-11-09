@@ -26,7 +26,7 @@ const App = () => {
     'https://storage.googleapis.com/prime-rp-indonesia/image10.png'
   ];
   
-  // Fetch server data
+  // Fetch server datas
   const fetchServerData = useCallback(async () => {
     try {
       const response = await fetch(
