@@ -21,7 +21,7 @@ const App = () => {
     'https://storage.googleapis.com/prime-rp-indonesia/image5.png',
     'https://storage.googleapis.com/prime-rp-indonesia/image6.png'
   ];
-  
+
   // Fetch server data
   const fetchServerData = useCallback(async () => {
     try {
@@ -140,9 +140,15 @@ const App = () => {
         {/* Server Banner */}
         <div id="server-info" className="mb-8 shadow-2xl">
           <a href="https://discord.com/invite/primeindonesia" target="_blank" rel="noopener noreferrer">
-            <img src={serverInfo.banner?.url || ""} alt="Connecting Banner" className="w-full h-auto rounded-lg" />
+            {/* Update the banner image source here */}
+            <img
+              src="https://storage.googleapis.com/prime-rp-indonesia/banner.gif"
+              alt="Connecting Banner"
+              className="w-full h-auto rounded-lg"
+            />
           </a>
         </div>
+
         {/* Image Carousel */}
         <ImageCarousel images={images} />
         {/* Filters, Search, and Players List */}
