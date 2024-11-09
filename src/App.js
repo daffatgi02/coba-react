@@ -13,8 +13,15 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [modalAvatarUrl, setModalAvatarUrl] = useState(null);
   const [isCardOpen, setIsCardOpen] = useState(true); // State for card visibility
-  const images = ['/foto/image1.png', '/foto/image2.png', '/foto/image3.png', '/foto/image4.png', '/foto/image5.png', '/foto/image6.png'];
-
+  const images = [
+    'https://storage.googleapis.com/prime-rp-indonesia/image1.png',
+    'https://storage.googleapis.com/prime-rp-indonesia/image2.png',
+    'https://storage.googleapis.com/prime-rp-indonesia/image3.png',
+    'https://storage.googleapis.com/prime-rp-indonesia/image4.png',
+    'https://storage.googleapis.com/prime-rp-indonesia/image5.png',
+    'https://storage.googleapis.com/prime-rp-indonesia/image6.png'
+  ];
+  
   // Fetch server data
   const fetchServerData = useCallback(async () => {
     try {
