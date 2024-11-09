@@ -17,7 +17,9 @@ const App = () => {
   // Fetch server data
   const fetchServerData = useCallback(async () => {
     try {
-      const response = await fetch("https://backend-fivem.vercel.app/serverdetail");
+      const response = await fetch(
+        "https://backend-fivem.vercel.app/serverdetail"
+      );
       const data = await response.json();
       setServerInfo(data);
     } catch (error) {
@@ -28,7 +30,9 @@ const App = () => {
   // Fetch player data
   const fetchPlayerData = useCallback(async () => {
     try {
-      const response = await fetch("https://backend-fivem.vercel.app/playerlist");
+      const response = await fetch(
+        "https://backend-fivem.vercel.app/playerlist"
+      );
       const data = await response.json();
       setPlayers(data.playerlist);
     } catch (error) {
@@ -57,7 +61,7 @@ const App = () => {
   // Handle filter change (items per page)
   const handleFilterChange = (event) => {
     const value = event.target.value;
-    setItemsPerPage(value === 'all' ? players.length : parseInt(value, 10));
+    setItemsPerPage(value === "all" ? players.length : parseInt(value, 10));
   };
 
   // Handle search term change
@@ -73,7 +77,12 @@ const App = () => {
   const toggleCard = () => setIsCardOpen((prevState) => !prevState);
 
   // Player Card Component
-  const PlayerCard = ({ player, avatarUrl, steamProfileUrl, discordUsername }) => (
+  const PlayerCard = ({
+    player,
+    avatarUrl,
+    steamProfileUrl,
+    discordUsername,
+  }) => (
     <div
       key={player.id}
       className="bg-white p-4 rounded-lg shadow-lg relative flex flex-col items-center text-center transition-all duration-300 transform hover:scale-105 cursor-pointer"
@@ -117,11 +126,14 @@ const App = () => {
       <div className="container mx-auto">
         {/* Floating Card */}
         <div
-          className={`fixed bottom-8 left-8 bg-white p-6 rounded-lg shadow-lg z-50 transition-transform transform ${isCardOpen ? "translate-x-0" : "-translate-x-full"}`}
+          className={`fixed bottom-8 left-8 bg-white p-6 rounded-lg shadow-lg z-50 transition-transform transform ${
+            isCardOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
         >
           <div className="relative flex justify-between items-center">
             <div className="text-2xl">
-              <h4>Total Players</h4> {serverInfo.totalplayer || 0} / {serverInfo.maxplayer}
+              <h4>Total Players</h4> {serverInfo.totalplayer || 0} /{" "}
+              {serverInfo.maxplayer}
             </div>
             <div className="absolute top-1/2 right-[-48px]">
               <button
@@ -156,11 +168,17 @@ const App = () => {
 
         {/* Server Banner */}
         <div id="server-info" className="mb-8 shadow-xl">
-          <img
-            src={serverInfo.banner?.url || ""}
-            alt="Connecting Banner"
-            className="w-full h-auto rounded-lg"
-          />
+          <a
+            href="https://discord.com/invite/primeindonesia"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src={serverInfo.banner?.url || ""}
+              alt="Connecting Banner"
+              className="w-full h-auto rounded-lg"
+            />
+          </a>
         </div>
 
         {/* Filters and Search */}
@@ -196,10 +214,14 @@ const App = () => {
           </div>
         </div>
 
-        <h3 className="mb-4 text-xl font-semibold text-gray-700">Player List</h3>
+        <h3 className="mb-4 text-xl font-semibold text-gray-700">
+          Player List
+        </h3>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {visiblePlayers.map((player) => {
-            const avatarUrl = player.discordDetails?.discordPhoto || "https://via.placeholder.com/64";
+            const avatarUrl =
+              player.discordDetails?.discordPhoto ||
+              "https://via.placeholder.com/64";
             const discordUsername = player.discordDetails?.usernameDiscord;
             const steamProfileUrl = getSteamId(player.steamProfileUrl);
 
