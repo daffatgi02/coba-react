@@ -26,10 +26,17 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>PRIME STATE RP</title>
+    <title>Prime Roleplay Indonesia</title>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <script>// Menyembunyikan scrollbar tapi tetap memungkinkan scroll
+      document.body.style.overflow = 'scroll';
+      document.documentElement.style.scrollbarWidth = 'none'; // Untuk Firefox
+      document.body.style.msOverflowStyle = 'none';  // Untuk IE dan Edge
+      
+      // Untuk Chrome, Safari, dan Opera
+      document.body.style['-webkit-scrollbar'] = 'none';
+      </script>
     <div id="root"></div>
     <!--
       This HTML file is a template.
