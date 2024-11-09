@@ -1,28 +1,13 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import "./App.css";
+import FloatCard from "./FloatCard"; // Import FloatCard component
 
 // Helper functions
-const getSteamId = (identifiers) =>
-  identifiers.find((id) => id.startsWith("steam:")) || null;
-
-const getDiscordId = (identifiers) => {
-  const discordIdentifier = identifiers.find((id) => id.startsWith("discord:"));
-  return discordIdentifier ? discordIdentifier.split(":")[1] : null;
-};
-
-const fetchDiscordData = async (discordId) => {
-  const response = await fetch(
-    `https://discordlookup.mesalytic.moe/v1/user/${discordId}`
-  );
-  return response.json();
-};
+const getSteamId = (steamProfileUrl) => steamProfileUrl || null;
 
 const App = () => {
   const [serverInfo, setServerInfo] = useState({});
   const [players, setPlayers] = useState([]);
   const [visiblePlayers, setVisiblePlayers] = useState([]);
-  const [discordData, setDiscordData] = useState({});
   const [openDetails, setOpenDetails] = useState({});
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
@@ -33,50 +18,32 @@ const App = () => {
   const fetchServerData = useCallback(async () => {
     try {
       const response = await fetch(
-        "https://servers-frontend.fivem.net/api/servers/single/4ylb3o"
+        "https://backend-fivem.vercel.app/serverdetail"
       );
       const data = await response.json();
-      const sortedPlayers = (data.Data?.players || []).sort(
-        (a, b) => a.id - b.id
-      ); // Sort players by smallest ID
-      setServerInfo(data.Data || {});
-      setPlayers(sortedPlayers); // Set sorted players
+      setServerInfo(data);
     } catch (error) {
-      console.error("Error fetching FiveM data:", error);
+      console.error("Error fetching server data:", error);
     }
   }, []);
 
-  // Fetch Discord data for each player
-  const fetchPlayersDiscordData = useCallback(async (players) => {
-    const discordInfo = {};
-    await Promise.all(
-      players.map(async (player) => {
-        const discordId = getDiscordId(player.identifiers);
-        if (discordId) {
-          try {
-            const data = await fetchDiscordData(discordId);
-            discordInfo[discordId] = data;
-          } catch (error) {
-            console.error(
-              `Error fetching Discord data for ID ${discordId}:`,
-              error
-            );
-          }
-        }
-      })
-    );
-    setDiscordData(discordInfo);
+  // Fetch player data
+  const fetchPlayerData = useCallback(async () => {
+    try {
+      const response = await fetch(
+        "https://backend-fivem.vercel.app/playerlist"
+      );
+      const data = await response.json();
+      setPlayers(data.playerlist);
+    } catch (error) {
+      console.error("Error fetching player data:", error);
+    }
   }, []);
 
   useEffect(() => {
     fetchServerData();
-  }, [fetchServerData]);
-
-  useEffect(() => {
-    if (players.length) {
-      fetchPlayersDiscordData(players);
-    }
-  }, [players, fetchPlayersDiscordData]);
+    fetchPlayerData();
+  }, [fetchServerData, fetchPlayerData]);
 
   // Update visible players based on search term and items per page
   useEffect(() => {
@@ -94,7 +61,7 @@ const App = () => {
   // Handle filter change (items per page)
   const handleFilterChange = (event) => {
     const value = event.target.value;
-    setItemsPerPage(value === 'all' ? players.length : parseInt(value, 10));
+    setItemsPerPage(value === "all" ? players.length : parseInt(value, 10));
   };
 
   // Handle search term change
@@ -110,7 +77,12 @@ const App = () => {
   const toggleCard = () => setIsCardOpen((prevState) => !prevState);
 
   // Player Card Component
-  const PlayerCard = ({ player, discordUser, avatarUrl, steamId }) => (
+  const PlayerCard = ({
+    player,
+    avatarUrl,
+    steamProfileUrl,
+    discordUsername,
+  }) => (
     <div
       key={player.id}
       className="bg-white p-4 rounded-lg shadow-lg relative flex flex-col items-center text-center transition-all duration-300 transform hover:scale-105 cursor-pointer"
@@ -130,74 +102,44 @@ const App = () => {
       />
       <p className="font-semibold text-lg">{player.name}</p>
       <p className="text-gray-500 text-sm">
-        <i className="fab fa-discord mr-2"></i>@{discordUser.username || "-"}
+        <i className="fab fa-discord mr-2"></i>@{discordUsername || "-"}
       </p>
 
       {openDetails[player.id] && (
         <div className="mt-4 text-left w-full bg-gray-50 p-3 rounded-lg shadow-inner transition-all duration-500 ease-in-out">
-          <p className="font-semibold">Identifier:</p>
-          {steamId ? (
-            <p className="text-gray-700">{steamId}</p>
-          ) : (
-            <p className="text-gray-500">No Steam ID available</p>
-          )}
+          <p className="font-semibold">Steam:</p>
+          <a
+            href={steamProfileUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600"
+          >
+            {steamProfileUrl ? "View Steam Profile" : "No Steam Profile"}
+          </a>
         </div>
       )}
     </div>
   );
 
   return (
-    <div className="bg-gray-100 min-h-screen p-5">
+    <div className="bg-white min-h-screen p-5 pb-20">
       <div className="container mx-auto">
         {/* Floating Card */}
-        <div
-          className={`fixed bottom-8 left-8 bg-white p-6 rounded-lg shadow-lg z-50 transition-transform transform ${
-            isCardOpen ? "translate-x-0" : "-translate-x-full"
-          }`} // Apply slide animation based on isCardOpen state
-        >
-          <div className="relative flex justify-between items-center">
-            <div className="text-2xl">
-              <h4>Total Players</h4> {serverInfo.clients || 0} /{" "}
-              {serverInfo.svMaxclients}
-            </div>
-            <div className="absolute top-1/2 right-[-48px]">
-              <button
-                onClick={toggleCard}
-                className="bg-gray-800 text-white p-3 focus:outline-none shadow-md flex justify-center items-center"
-                style={{ width: "42px", height: "42px", borderRadius: "50px" }}
-              >
-                {isCardOpen ? (
-                  <ChevronLeft className="text-white" size={52} />
-                ) : (
-                  <ChevronRight className="text-white" size={52} />
-                )}
-              </button>
-            </div>
-          </div>
-          <div className="flex items-center mb-4">
-            <p className="text-1xl">
-              <h5>Join the City ►</h5>
-            </p>
-            {serverInfo.vars?.Discord && (
-              <a
-                href={serverInfo.vars.Discord}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 ml-2"
-              >
-                Discord
-              </a>
-            )}
-          </div>
-        </div>
+        <FloatCard isCardOpen={isCardOpen} toggleCard={toggleCard} serverInfo={serverInfo} />
 
         {/* Server Banner */}
-        <div id="server-info" className="mb-8  shadow-xl">
-          <img
-            src={serverInfo.vars?.banner_connecting || ""}
-            alt="Connecting Banner"
-            className="w-full h-auto rounded-lg"
-          />
+        <div id="server-info" className="mb-8 shadow-2xl">
+          <a
+            href="https://discord.com/invite/primeindonesia"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src={serverInfo.banner?.url || ""}
+              alt="Connecting Banner"
+              className="w-full h-auto rounded-lg"
+            />
+          </a>
         </div>
 
         {/* Filters and Search */}
@@ -238,19 +180,19 @@ const App = () => {
         </h3>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {visiblePlayers.map((player) => {
-            const discordId = getDiscordId(player.identifiers);
-            const discordUser = discordData[discordId] || {};
             const avatarUrl =
-              discordUser.avatar?.link || "https://via.placeholder.com/64";
-            const steamId = getSteamId(player.identifiers);
+              player.discordDetails?.discordPhoto ||
+              "https://via.placeholder.com/64";
+            const discordUsername = player.discordDetails?.usernameDiscord;
+            const steamProfileUrl = getSteamId(player.steamProfileUrl);
 
             return (
               <PlayerCard
                 key={player.id}
                 player={player}
-                discordUser={discordUser}
                 avatarUrl={avatarUrl}
-                steamId={steamId}
+                steamProfileUrl={steamProfileUrl}
+                discordUsername={discordUsername}
               />
             );
           })}
