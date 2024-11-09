@@ -8,7 +8,6 @@ const App = () => {
   const [serverInfo, setServerInfo] = useState({});
   const [players, setPlayers] = useState([]);
   const [visiblePlayers, setVisiblePlayers] = useState([]);
-  const [openDetails, setOpenDetails] = useState({});
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
   const [modalAvatarUrl, setModalAvatarUrl] = useState(null);
@@ -53,10 +52,6 @@ const App = () => {
     setVisiblePlayers(filteredPlayers.slice(0, itemsPerPage));
   }, [itemsPerPage, players, searchTerm]);
 
-  // Handle player detail toggle
-  const handlePlayerClick = (id) => {
-    setOpenDetails((prevState) => ({ ...prevState, [id]: !prevState[id] }));
-  };
 
   // Handle filter change (items per page)
   const handleFilterChange = (event) => {
@@ -76,50 +71,52 @@ const App = () => {
   // Toggle floating card visibility
   const toggleCard = () => setIsCardOpen((prevState) => !prevState);
 
-  // Player Card Component
-  const PlayerCard = ({
-    player,
-    avatarUrl,
-    steamProfileUrl,
-    discordUsername,
-  }) => (
-    <div
-      key={player.id}
-      className="bg-white p-4 rounded-lg shadow-lg relative flex flex-col items-center text-center transition-all duration-300 transform hover:scale-105 cursor-pointer"
-      onClick={() => handlePlayerClick(player.id)}
-    >
-      <div className="absolute top-2 right-2 bg-gray-800 text-white text-xs px-2 py-1 rounded-lg">
-        <span>ID: {player.id}</span> | <span>Ping: {player.ping} ms</span>
-      </div>
-      <img
-        src={avatarUrl}
-        alt="Discord Avatar"
-        className="rounded-full w-16 h-16 mb-2 cursor-pointer"
-        onClick={(e) => {
-          e.stopPropagation();
-          openAvatarModal(avatarUrl);
-        }}
-      />
-      <p className="font-semibold text-lg">{player.name}</p>
-      <p className="text-gray-500 text-sm">
-        <i className="fab fa-discord mr-2"></i>@{discordUsername || "-"}
-      </p>
-
-      {openDetails[player.id] && (
-        <div className="mt-4 text-left w-full bg-gray-50 p-3 rounded-lg shadow-inner transition-all duration-500 ease-in-out">
-          <p className="font-semibold">Steam:</p>
-          <a
-            href={steamProfileUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600"
-          >
-            {steamProfileUrl ? "View Steam Profile" : "No Steam Profile"}
-          </a>
-        </div>
-      )}
+// Player Card Component
+const PlayerCard = ({
+  player,
+  avatarUrl,
+  steamProfileUrl,
+  discordUsername,
+}) => (
+  <div
+    key={player.id}
+    className="bg-white p-4 rounded-lg shadow-lg relative flex flex-col items-center text-center transition-all duration-300 transform hover:scale-105 cursor-pointer"
+  >
+    <div className="absolute top-2 right-2 bg-gray-800 text-white text-xs px-2 py-1 rounded-lg">
+      <span>ID: {player.id}</span> | <span>Ping: {player.ping} ms</span>
     </div>
-  );
+    <img
+      src={avatarUrl}
+      alt="Discord Avatar"
+      className="rounded-full w-16 h-16 mb-2 cursor-pointer"
+      onClick={(e) => {
+        e.stopPropagation();
+        openAvatarModal(avatarUrl);
+      }}
+    />
+    <p className="font-semibold text-lg">{player.name}</p>
+
+    <p className="text-gray-500 text-sm flex items-center">
+      <i className="fab fa-discord mr-2"></i>@{discordUsername || "-"}
+      {steamProfileUrl && (
+        <a
+          href={steamProfileUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center ml-4 text-gray-500 text-blue-600"
+        >
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/1200px-Steam_icon_logo.svg.png"
+            alt="Steam Logo"
+            className="w-5 h-5 mr-2"
+          />
+          Steam Profile
+        </a>
+      )}
+    </p>
+  </div>
+);
+
 
   return (
     <div className="bg-white min-h-screen p-5 pb-20">
