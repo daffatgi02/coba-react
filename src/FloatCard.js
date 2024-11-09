@@ -4,7 +4,7 @@ import { FaInstagram, FaYoutube, FaDiscord } from 'react-icons/fa';
 
 const FloatCard = ({ isCardOpen, toggleCard, serverInfo }) => (
   <div
-    className={`fixed bottom-8 left-8 bg-white p-6 rounded-lg shadow-lg z-50 transition-transform transform ${
+    className={`fixed bottom-8 left-3 bg-white p-6 rounded-lg shadow-lg z-50 transition-transform transform ${
       isCardOpen ? 'translate-x-0' : '-translate-x-full'
     }`}
   >
