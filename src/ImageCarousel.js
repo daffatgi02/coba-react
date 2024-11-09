@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { X } from 'lucide-react';
+import './ImageCarousel.css';  // Import the CSS file
 
 const ImageCarousel = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -78,7 +79,7 @@ const ImageCarousel = ({ images }) => {
 
   return (
     <>
-      <div className="relative w-full max-w-3xl mx-auto h-[40vh] mb-8">
+      <div className="carousel-container">
         <div
           ref={containerRef}
           className="overflow-visible w-full h-full flex justify-center items-center select-none"
@@ -96,9 +97,7 @@ const ImageCarousel = ({ images }) => {
               return (
                 <div
                   key={index}
-                  className={`absolute transition-all duration-500 ease-in-out cursor-grab ${
-                    dragging.isDragging ? 'cursor-grabbing' : ''
-                  } rounded-2xl overflow-hidden`}
+                  className={`carousel-image ${dragging.isDragging ? 'cursor-grabbing' : ''}`}
                   style={{
                     ...imageStyles,
                     width: '100%',
@@ -111,23 +110,18 @@ const ImageCarousel = ({ images }) => {
                     alt={`Slide ${index + 1}`}
                     className="w-full h-full object-cover rounded-2xl shadow-lg"
                     draggable="false"
-                    loading="lazy"  // Lazy loading image
+                    loading="lazy"
                   />
                 </div>
               );
             })}
           </div>
         </div>
-
-
       </div>
 
       {/* Zoom Modal */}
       {zoomedImage && (
-        <div
-          className="fixed inset-0 bg-black/80 flex justify-center items-center z-[1000]"
-          onClick={closeZoom}
-        >
+        <div className="carousel-zoom" onClick={closeZoom}>
           <div className="relative max-w-[90vw] max-h-[90vh]">
             <button
               onClick={closeZoom}
@@ -138,7 +132,7 @@ const ImageCarousel = ({ images }) => {
             <img
               src={zoomedImage}
               alt="Zoomed view"
-              className="max-w-full max-h-[90vh] object-contain rounded-lg"
+              className="carousel-zoom-img"
               onClick={(e) => e.stopPropagation()}
             />
           </div>
