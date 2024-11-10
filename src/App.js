@@ -17,6 +17,15 @@ const App = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const images = [
     'https://storage.googleapis.com/prime-rp-indonesia/image1.png',
+    'https://storage.googleapis.com/prime-rp-indonesia/image2.png',
+    'https://storage.googleapis.com/prime-rp-indonesia/image3.png',
+    'https://storage.googleapis.com/prime-rp-indonesia/image4.png',
+    'https://storage.googleapis.com/prime-rp-indonesia/image5.png',
+    'https://storage.googleapis.com/prime-rp-indonesia/image6.png',
+    'https://storage.googleapis.com/prime-rp-indonesia/image7.png',
+    'https://storage.googleapis.com/prime-rp-indonesia/image8.png',
+    'https://storage.googleapis.com/prime-rp-indonesia/image9.png',
+    'https://storage.googleapis.com/prime-rp-indonesia/image10.png'
   ];
 
   const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
