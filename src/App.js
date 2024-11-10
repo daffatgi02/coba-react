@@ -121,18 +121,28 @@ const App = () => {
             {dropdownOpen && (
               <div className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div className="py-1">
-                  <button onClick={() => handleFilterChange(5)} className="block w-full px-4 py-2 text-sm text-gray-700">5 Player</button>
-                  <button onClick={() => handleFilterChange(10)} className="block w-full px-4 py-2 text-sm text-gray-700">10 Player</button>
-                  <button onClick={() => handleFilterChange(15)} className="block w-full px-4 py-2 text-sm text-gray-700">15 Player</button>
-                  <button onClick={() => handleFilterChange("all")} className="block w-full px-4 py-2 text-sm text-gray-700">All Player</button>
+                  <button onClick={() => handleFilterChange(5)} className="block w-full px-4 py-2 text-sm text-gray-700">5</button>
+                  <button onClick={() => handleFilterChange(10)} className="block w-full px-4 py-2 text-sm text-gray-700">10</button>
+                  <button onClick={() => handleFilterChange(15)} className="block w-full px-4 py-2 text-sm text-gray-700">15</button>
+                  <button onClick={() => handleFilterChange("all")} className="block w-full px-4 py-2 text-sm text-gray-700">All</button>
                 </div>
               </div>
             )}
           </div>
 
-          <div className="flex items-center">
-            <label htmlFor="search-box" className="mr-2 text-lg">Search:</label>
-            <input id="search-box" type="text" className="p-2 border border-gray-300 rounded-lg" placeholder="Search by player name" value={searchTerm} onChange={handleSearchChange} />
+          {/* Styled Search Bar */}
+          <div className="flex items-center w-full sm:w-auto relative">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+              <img src="/favicon.ico" alt="Search Icon" className="h-5 w-5 text-gray-500" />
+            </span>
+            <input
+              id="search-box"
+              type="text"
+              className="p-3 pl-10 pr-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none text-gray-700 text-sm"
+              placeholder="Search by player name"
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
           </div>
         </div>
         
