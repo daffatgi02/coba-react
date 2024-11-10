@@ -25,7 +25,8 @@ const App = () => {
     'https://storage.googleapis.com/prime-rp-indonesia/image7.png',
     'https://storage.googleapis.com/prime-rp-indonesia/image8.png',
     'https://storage.googleapis.com/prime-rp-indonesia/image9.png',
-    'https://storage.googleapis.com/prime-rp-indonesia/image10.png'
+    'https://storage.googleapis.com/prime-rp-indonesia/image10.png',
+    'https://storage.googleapis.com/prime-rp-indonesia/image11.png'
   ];
 
   const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
