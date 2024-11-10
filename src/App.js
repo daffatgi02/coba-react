@@ -148,7 +148,7 @@ const App = () => {
               id="search-box"
               type="text"
               className="p-3 pl-10 pr-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none text-gray-700 text-sm"
-              placeholder="Search by player name"
+              placeholder="Search by steam name"
               value={searchTerm}
               onChange={handleSearchChange}
             />
