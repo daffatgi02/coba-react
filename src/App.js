@@ -14,18 +14,12 @@ const App = () => {
   const [modalAvatarUrl, setModalAvatarUrl] = useState(null);
   const [isCardOpen, setIsCardOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const images = [
     'https://storage.googleapis.com/prime-rp-indonesia/image1.png',
-    'https://storage.googleapis.com/prime-rp-indonesia/image2.png',
-    'https://storage.googleapis.com/prime-rp-indonesia/image3.png',
-    'https://storage.googleapis.com/prime-rp-indonesia/image4.png',
-    'https://storage.googleapis.com/prime-rp-indonesia/image5.png',
-    'https://storage.googleapis.com/prime-rp-indonesia/image6.png',
-    'https://storage.googleapis.com/prime-rp-indonesia/image7.png',
-    'https://storage.googleapis.com/prime-rp-indonesia/image8.png',
-    'https://storage.googleapis.com/prime-rp-indonesia/image9.png',
-    'https://storage.googleapis.com/prime-rp-indonesia/image10.png'
   ];
+
+  const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
 
   // Fetch server data
   const fetchServerData = useCallback(async () => {
@@ -48,7 +42,7 @@ const App = () => {
       // Add a 3-second delay before setting isLoading to false
       setTimeout(() => {
         setIsLoading(false);  
-      }, 3000); // 3000 ms = 3 seconds
+      }, 3000);
     } catch (error) {
       console.error("Error fetching player data:", error);
     }
@@ -66,9 +60,9 @@ const App = () => {
     setVisiblePlayers(filteredPlayers.slice(0, itemsPerPage));
   }, [itemsPerPage, players, searchTerm]);
 
-  const handleFilterChange = (event) => {
-    const value = event.target.value;
+  const handleFilterChange = (value) => {
     setItemsPerPage(value === "all" ? players.length : parseInt(value, 10));
+    setDropdownOpen(false);
   };
 
   const handleSearchChange = (event) => setSearchTerm(event.target.value);
@@ -112,21 +106,36 @@ const App = () => {
           </a>
         </div>
         <ImageCarousel images={images} />
+        
+        {/* Dropdown for itemsPerPage */}
         <div className="mb-4 flex flex-col sm:flex-row sm:justify-between items-start sm:items-center">
-          <div className="flex items-center mb-4 sm:mb-0">
-            <label htmlFor="items-per-page" className="mr-2 text-lg">Show Player:</label>
-            <select id="items-per-page" className="p-2 border border-gray-300 rounded-lg" onChange={handleFilterChange} value={itemsPerPage === players.length ? "all" : itemsPerPage}>
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
-              <option value="all">All</option>
-            </select>
+          <div className="relative inline-block text-left">
+            <button
+              type="button"
+              className="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+              onClick={toggleDropdown}
+            >
+              Show Player: {itemsPerPage === players.length ? "All" : itemsPerPage}
+            </button>
+            
+            {dropdownOpen && (
+              <div className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <div className="py-1">
+                  <button onClick={() => handleFilterChange(5)} className="block w-full px-4 py-2 text-sm text-gray-700">5 Player</button>
+                  <button onClick={() => handleFilterChange(10)} className="block w-full px-4 py-2 text-sm text-gray-700">10 Player</button>
+                  <button onClick={() => handleFilterChange(15)} className="block w-full px-4 py-2 text-sm text-gray-700">15 Player</button>
+                  <button onClick={() => handleFilterChange("all")} className="block w-full px-4 py-2 text-sm text-gray-700">All Player</button>
+                </div>
+              </div>
+            )}
           </div>
+
           <div className="flex items-center">
             <label htmlFor="search-box" className="mr-2 text-lg">Search:</label>
             <input id="search-box" type="text" className="p-2 border border-gray-300 rounded-lg" placeholder="Search by player name" value={searchTerm} onChange={handleSearchChange} />
           </div>
         </div>
+        
         <h3 className="mb-4 text-xl font-semibold text-gray-700">Player List</h3>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {visiblePlayers.map((player) => {
