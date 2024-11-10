@@ -1,0 +1,25 @@
+/* App.css */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  .loading-overlay.visible {
+    opacity: 1;
+  }
+  
+  .loading-logo {
+    width: 312px;
+    height: 312px;
+  }
+  
