@@ -17,6 +17,7 @@ const App = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const images = [
     'https://storage.googleapis.com/prime-rp-indonesia/image0.png',
+    'https://storage.googleapis.com/prime-rp-indonesia/image.png',
     'https://storage.googleapis.com/prime-rp-indonesia/image2.png',
     'https://storage.googleapis.com/prime-rp-indonesia/image3.png',
     'https://storage.googleapis.com/prime-rp-indonesia/image4.png',
