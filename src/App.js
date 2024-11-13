@@ -53,7 +53,7 @@ const App = () => {
       // Add a 3-second delay before setting isLoading to false
       setTimeout(() => {
         setIsLoading(false);  
-      }, 3000);
+      }, 2000);
     } catch (error) {
       console.error("Error fetching player data:", error);
     }
