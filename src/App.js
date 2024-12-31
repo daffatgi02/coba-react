@@ -16,18 +16,12 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const images = [
-    'https://storage.googleapis.com/prime-rp-indonesia/image0.png',
-    'https://storage.googleapis.com/prime-rp-indonesia/image.png',
-    'https://storage.googleapis.com/prime-rp-indonesia/image2.png',
-    'https://storage.googleapis.com/prime-rp-indonesia/image3.png',
-    'https://storage.googleapis.com/prime-rp-indonesia/image4.png',
-    'https://storage.googleapis.com/prime-rp-indonesia/image5.png',
-    'https://storage.googleapis.com/prime-rp-indonesia/image6.png',
-    'https://storage.googleapis.com/prime-rp-indonesia/image7.png',
-    'https://storage.googleapis.com/prime-rp-indonesia/image8.png',
-    'https://storage.googleapis.com/prime-rp-indonesia/image9.png',
-    'https://storage.googleapis.com/prime-rp-indonesia/image10.png',
-    'https://storage.googleapis.com/prime-rp-indonesia/image11.png'
+    'https://storage.googleapis.com/prime-rp-indonesia/prime1.png',
+    'https://storage.googleapis.com/prime-rp-indonesia/prime2.png',
+    'https://storage.googleapis.com/prime-rp-indonesia/prime3.png',
+    'https://storage.googleapis.com/prime-rp-indonesia/prime4.png',
+    'https://storage.googleapis.com/prime-rp-indonesia/prime5.png',
+    'https://storage.googleapis.com/prime-rp-indonesia/prime6.png',
   ];
 
   const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
@@ -113,7 +107,7 @@ const App = () => {
         <FloatCard isCardOpen={isCardOpen} toggleCard={toggleCard} serverInfo={serverInfo} />
         <div id="server-info" className="mb-8 shadow-2xl">
           <a href="https://discord.com/invite/primeindonesia" target="_blank" rel="noopener noreferrer">
-            <img src="https://storage.googleapis.com/prime-rp-indonesia/banner.gif" alt="Connecting Banner" className="w-full h-auto rounded-lg" />
+            <img src="https://storage.cloud.google.com/prime-rp-indonesia/banner.gif" alt="Connecting Banner" className="w-full h-auto rounded-lg" />
           </a>
         </div>
         <ImageCarousel images={images} />
