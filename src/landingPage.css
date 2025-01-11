@@ -1,0 +1,11 @@
+/* landingPage.css */
+.bg-landing-gradient {
+    min-height: 100vh; /* contoh supaya kelihatan saat scroll */
+    background: linear-gradient(
+      to bottom,
+      #ffffff 0%,
+      #d1f0ee 30%,
+      #098c83 80%,
+      #098c83 100%
+    );
+}

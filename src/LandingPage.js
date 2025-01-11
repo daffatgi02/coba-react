@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ImageCarousel from "./ImageCarousel";
+import "./landingPage.css"; // berisi .bg-landing-gradient
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -41,14 +42,13 @@ const LandingPage = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-
   // Fungsi untuk menutup overlay
   const handleCloseOverlay = () => {
     setShowOverlay(false);
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#f2f2f2] text-[#333] overflow-auto relative">
+    <div className="min-h-screen w-full bg-landing-gradient text-[#333] overflow-auto relative">
       {/* 
         OVERLAY PENGUMUMAN 
         Muncul di atas segalanya (z-[999]), 
@@ -70,8 +70,8 @@ const LandingPage = () => {
               Website Under Development
             </h2>
             <p className="text-sm text-gray-600 mb-6">
-              Kami masih menyempurnakan halaman ini. 
-              Jika ingin memantau jumlah pemain online, silakan klik di pojok kanan atas "LIHAT PLAYER"
+              Kami masih menyempurnakan halaman ini. Jika ingin memantau jumlah
+              pemain online, silakan klik tombol <b>"Status Player"</b>
             </p>
             <div className="flex flex-col md:flex-row gap-3 justify-center">
               <button
@@ -98,7 +98,7 @@ const LandingPage = () => {
         `}
       >
         {/* Logo + Judul */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-3 ">
           <img
             src="/assets/logo.png"
             alt="Logo"
@@ -110,58 +110,94 @@ const LandingPage = () => {
           />
           <span
             className={`
-              font-extrabold uppercase text-[#098c83]
+              font-semibold text-[#098c83]
               transition-all duration-300
               ${isScrolled ? "text-lg" : "text-xl"}
             `}
           >
-            PRIME STATE RP
+            #Everything will be prime
           </span>
         </div>
 
-        {/* Tombol Monitoring di Navbar */}
+        {/* Tambahkan tombol tombol opsional di Navbar */}
         <div className="space-x-4">
-          <button
-            onClick={() => navigate("/list-player")}
-            className="bg-[#098c83] hover:bg-[#07a193] transition text-white px-4 py-2 rounded-md font-semibold"
-          >
-            Lihat Player
+          {/* <button className="bg-[#098c83] hover:bg-[#07a193] transition text-white px-4 py-2 rounded-md font-semibold">
+            Social Media
           </button>
+          <button className="bg-[#098c83] hover:bg-[#07a193] transition text-white px-4 py-2 rounded-md font-semibold">
+            Lihat Player
+          </button> */}
         </div>
       </header>
 
-{/* SECTION: HERO (SLIDESHOW) */}
-<section className="pt-20 relative w-full overflow-hidden">
-  <div
-    className="w-full h-[70vh] md:h-[80vh] bg-cover bg-center flex flex-col justify-center items-center transition-all duration-700 relative"
-    style={{
-      backgroundImage: `url(https://storage.googleapis.com/prime-rp-indonesia/prime2.png)`,  // Menggunakan aset lokal
-    }}
-  >
-    {/* Overlay hero lebih terang */}
-    <div className="absolute inset-0 bg-white/30 mix-blend-multiply"></div>
+      {/* SECTION: HERO */}
+      <section className="pt-20 relative w-full overflow-hidden bg-transparent">
+        {/* Background container */}
+        <div className="w-full h-[70vh] md:h-[65vh] flex flex-col justify-center items-start transition-all duration-700 relative">
+          {/* Overlay opsional untuk tambahan transparansi */}
+          <div className="absolute inset-0 bg-transparent"></div>
 
-    {/* Konten Teks Hero */}
-    <div className="relative z-10 text-center px-4 md:px-8 max-w-4xl">
-      <h1
-        className="
-          text-6xl
-          md:text-8xl
+          {/* Konten Hero */}
+          <div className="relative z-10 px-6 md:px-16 lg:px-32 max-w-4xl">
+            {/* Judul utama */}
+            <h1
+              className="
+          text-5xl
+          md:text-7xl
           font-extrabold
-          mb-4
+          mb-6
           tracking-wide
+          uppercase
         "
-        style={{
-          WebkitTextStroke: "2px #ffffff", // outline putih
-          color: "transparent",            // isi teks transparan
-        }}
-      >
-        #EVERYTHING WILL BE PRIME
-      </h1>
-    </div>
-  </div>
-</section>
+              style={{
+                WebkitTextStroke: `2px #098c83`, // Outline dengan warna main color
+                color: "transparent", // Isi teks transparan
+              }}
+            >
+              PRIME STATE
+            </h1>
 
+            {/* Deskripsi Hero */}
+            <p className="text-lg md:text-xl text-[#098c83] mb-8 max-w-2xl">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
+
+            {/* Tombol CTA */}
+            <div className="flex gap-4">
+              <button
+                onClick={() => navigate("/list-player")}
+                className="bg-[#098c83] hover:bg-[#07a193] transition text-white px-4 py-2 rounded-md font-semibold"
+              >
+                Status Player
+              </button>
+              <button className="bg-white hover:bg-[#f0f0f0] text-[#098c83] px-6 py-3 rounded-md font-semibold transition">
+                Join the Server✈️
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div>
+        <h1
+          className="
+          text-center 
+          text-5xl
+          md:text-7xl
+          font-extrabold
+          mb-6
+          tracking-wide
+          uppercase
+        "
+          style={{
+            WebkitTextStroke: `2px #098c83`, // Outline dengan warna main color
+            color: "transparent", // Isi teks transparan
+          }}
+        >
+          Galery
+        </h1>
+        <ImageCarousel images={images} currentIndex={currentIndex} />
+      </div>
 
       {/* SECTION: QUICK LINKS */}
       <section className="py-12 px-4 md:px-16">
@@ -175,9 +211,7 @@ const LandingPage = () => {
             <h3 className="text-xl font-bold mb-2 text-[#098c83]">
               Server Rules
             </h3>
-            <p className="text-sm">
-              Learn all the rules of our server.
-            </p>
+            <p className="text-sm">Learn all the rules of our server.</p>
           </div>
 
           <div className="bg-white p-6 rounded-lg hover:shadow-xl transition-all border">
@@ -186,12 +220,8 @@ const LandingPage = () => {
               alt="Forum"
               className="mb-4 rounded-lg object-cover mx-auto"
             />
-            <h3 className="text-xl font-bold mb-2 text-[#098c83]">
-              Forum
-            </h3>
-            <p className="text-sm">
-              Discuss with other players here.
-            </p>
+            <h3 className="text-xl font-bold mb-2 text-[#098c83]">Forum</h3>
+            <p className="text-sm">Discuss with other players here.</p>
           </div>
 
           <div className="bg-white p-6 rounded-lg hover:shadow-xl transition-all border">
@@ -200,19 +230,15 @@ const LandingPage = () => {
               alt="Donations"
               className="mb-4 rounded-lg object-cover mx-auto"
             />
-            <h3 className="text-xl font-bold mb-2 text-[#098c83]">
-              Donations
-            </h3>
-            <p className="text-sm">
-              Support our server with a donation.
-            </p>
+            <h3 className="text-xl font-bold mb-2 text-[#098c83]">Donations</h3>
+            <p className="text-sm">Support our server with a donation.</p>
           </div>
         </div>
       </section>
 
       {/* SECTION: CLASSES / FACTIONS */}
       <section className="py-12 px-4 md:px-16">
-        <h2 className="text-3xl text-center font-bold mb-10 text-[#098c83]">
+        <h2 className="text-3xl text-center font-bold mb-10 text-[#ffffff]">
           Who Do You Want to Be?
         </h2>
 
@@ -289,31 +315,13 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
-      <ImageCarousel images={images} currentIndex={currentIndex} />
-      {/* SECTION: FINAL CTA */}
-      <section className="py-16 px-4 md:px-16 text-center relative bg-[#098c83] text-white">
-        {/* <img
-          src="https://placehold.co/1200x400.png?text=Roleplay+Illustration"
-          alt="Roleplay Illustration"
-          className="mx-auto mb-8 object-contain"
-        /> */}
-        <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
-          Ready to Start
-        </h2>
-        <h3 className="text-4xl md:text-5xl font-extrabold mb-8">
-          Your New Life?
-        </h3>
-        <button className="bg-white hover:bg-[#f0f0f0] text-[#098c83] px-6 py-3 rounded-md font-semibold transition">
-          Join the Server
-        </button>
-      </section>
-      
+
       {/* SECTION: FOOTER */}
       <footer className="bg-white py-4 text-center border-t border-[#ccc]">
         <p className="text-sm text-[#777]">
           &copy; 2024
-          <span className="text-[#098c83] ml-1 font-bold">PRIME RP</span>.
-          All rights reserved.
+          <span className="text-[#098c83] ml-1 font-bold">PRIME RP</span>. All
+          rights reserved.
         </p>
       </footer>
     </div>
