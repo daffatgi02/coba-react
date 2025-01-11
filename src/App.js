@@ -14,7 +14,7 @@ const App = () => {
   React.useEffect(() => {
     const fetchServerData = async () => {
       try {
-        const response = await fetch("https://backend-fivem.vercel.app/serverdetail");
+        const response = await fetch("https://fivem-307751878933.asia-southeast1.run.app/serverdetail");
         const data = await response.json();
         setServerInfo(data);
       } catch (error) {

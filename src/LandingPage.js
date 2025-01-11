@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ImageCarousel from "./ImageCarousel";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -40,8 +41,6 @@ const LandingPage = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // URL gambar saat ini
-  const currentImage = images[currentIndex];
 
   // Fungsi untuk menutup overlay
   const handleCloseOverlay = () => {
@@ -72,20 +71,12 @@ const LandingPage = () => {
             </h2>
             <p className="text-sm text-gray-600 mb-6">
               Kami masih menyempurnakan halaman ini. 
-              Jika ingin memantau jumlah pemain online, silakan klik button List Player
+              Jika ingin memantau jumlah pemain online, silakan klik di pojok kanan atas "LIHAT PLAYER"
             </p>
             <div className="flex flex-col md:flex-row gap-3 justify-center">
               <button
-                onClick={() => {
-                  navigate("/list-player");
-                }}
-                className="bg-[#098c83] hover:bg-[#07a193] text-white px-5 py-2 rounded-md font-semibold"
-              >
-                List Player
-              </button>
-              <button
                 onClick={handleCloseOverlay}
-                className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-5 py-2 rounded-md font-semibold"
+                className="bg-[#098c83] hover:bg-[#07a193] text-white px-5 py-2 rounded-md font-semibold"
               >
                 Lanjutkan
               </button>
@@ -134,49 +125,50 @@ const LandingPage = () => {
             onClick={() => navigate("/list-player")}
             className="bg-[#098c83] hover:bg-[#07a193] transition text-white px-4 py-2 rounded-md font-semibold"
           >
-            Lihat Warga
+            Lihat Player
           </button>
         </div>
       </header>
 
-      {/* SECTION: HERO (SLIDESHOW) */}
-      <section className="pt-20 relative w-full overflow-hidden">
-        <div
-          className="w-full h-[70vh] md:h-[80vh] bg-cover bg-center flex flex-col justify-center items-center transition-all duration-700 relative"
-          style={{
-            backgroundImage: `url(${currentImage})`,
-          }}
-        >
-          {/* Overlay hero lebih terang */}
-          <div className="absolute inset-0 bg-white/30 mix-blend-multiply"></div>
+{/* SECTION: HERO (SLIDESHOW) */}
+<section className="pt-20 relative w-full overflow-hidden">
+  <div
+    className="w-full h-[70vh] md:h-[80vh] bg-cover bg-center flex flex-col justify-center items-center transition-all duration-700 relative"
+    style={{
+      backgroundImage: `url(https://storage.googleapis.com/prime-rp-indonesia/prime2.png)`,  // Menggunakan aset lokal
+    }}
+  >
+    {/* Overlay hero lebih terang */}
+    <div className="absolute inset-0 bg-white/30 mix-blend-multiply"></div>
 
-          {/* Konten Teks Hero */}
-          <div className="relative z-10 text-center px-4 md:px-8 max-w-4xl">
-            <h1
-              className="
-                text-6xl
-                md:text-8xl
-                font-extrabold
-                mb-4
-                tracking-wide
-              "
-              style={{
-                WebkitTextStroke: "2px #ffffff", // outline putih
-                color: "transparent",            // isi teks transparan
-              }}
-            >
-              #EVERYTHING WILL BE PRIME
-            </h1>
-          </div>
-        </div>
-      </section>
+    {/* Konten Teks Hero */}
+    <div className="relative z-10 text-center px-4 md:px-8 max-w-4xl">
+      <h1
+        className="
+          text-6xl
+          md:text-8xl
+          font-extrabold
+          mb-4
+          tracking-wide
+        "
+        style={{
+          WebkitTextStroke: "2px #ffffff", // outline putih
+          color: "transparent",            // isi teks transparan
+        }}
+      >
+        #EVERYTHING WILL BE PRIME
+      </h1>
+    </div>
+  </div>
+</section>
+
 
       {/* SECTION: QUICK LINKS */}
       <section className="py-12 px-4 md:px-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
           <div className="bg-white p-6 rounded-lg hover:shadow-xl transition-all border">
             <img
-              src="https://via.placeholder.com/300x180.png?text=Rules"
+              src="https://placehold.co/300x180.png?text=Rules"
               alt="Rules"
               className="mb-4 rounded-lg object-cover mx-auto"
             />
@@ -190,7 +182,7 @@ const LandingPage = () => {
 
           <div className="bg-white p-6 rounded-lg hover:shadow-xl transition-all border">
             <img
-              src="https://via.placeholder.com/300x180.png?text=Forum"
+              src="https://placehold.co/300x180.png?text=Forum"
               alt="Forum"
               className="mb-4 rounded-lg object-cover mx-auto"
             />
@@ -204,7 +196,7 @@ const LandingPage = () => {
 
           <div className="bg-white p-6 rounded-lg hover:shadow-xl transition-all border">
             <img
-              src="https://via.placeholder.com/300x180.png?text=Donations"
+              src="https://placehold.co/300x180.png?text=Donations"
               alt="Donations"
               className="mb-4 rounded-lg object-cover mx-auto"
             />
@@ -227,13 +219,13 @@ const LandingPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           <div className="relative overflow-hidden rounded-lg group">
             <img
-              src="https://via.placeholder.com/800x500.png?text=Working+Class"
-              alt="Working Class"
+              src="https://placehold.co/800x500.png"
+              alt="Goverment"
               className="object-cover w-full h-full group-hover:scale-105 transition-transform"
             />
             <div className="absolute inset-0 bg-[#098c83]/30 flex flex-col justify-end p-4">
               <h3 className="text-2xl font-bold mb-2 text-white drop-shadow">
-                Working Class
+                Goverment
               </h3>
               <p className="text-sm text-white drop-shadow">
                 Lorem ipsum dolor sit amet consectetur. Senectus sit duis ac ut
@@ -244,13 +236,13 @@ const LandingPage = () => {
 
           <div className="relative overflow-hidden rounded-lg group">
             <img
-              src="https://via.placeholder.com/800x500.png?text=Los+Santos+Mafia"
-              alt="Los Santos Mafia"
+              src="https://placehold.co/800x500.png"
+              alt="Gangster"
               className="object-cover w-full h-full group-hover:scale-105 transition-transform"
             />
             <div className="absolute inset-0 bg-[#098c83]/30 flex flex-col justify-end p-4">
               <h3 className="text-2xl font-bold mb-2 text-white drop-shadow">
-                Los Santos Mafia
+                Gangster
               </h3>
               <p className="text-sm text-white drop-shadow">
                 Lorem ipsum dolor sit amet consectetur. Senectus sit duis ac ut
@@ -264,13 +256,13 @@ const LandingPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="relative overflow-hidden rounded-lg group">
             <img
-              src="https://via.placeholder.com/800x500.png?text=Working+Class"
-              alt="Working Class"
+              src="https://placehold.co/800x500.png"
+              alt="Goverment"
               className="object-cover w-full h-full group-hover:scale-105 transition-transform"
             />
             <div className="absolute inset-0 bg-[#098c83]/30 flex flex-col justify-end p-4">
               <h3 className="text-2xl font-bold mb-2 text-white drop-shadow">
-                Working Class
+                Goverment
               </h3>
               <p className="text-sm text-white drop-shadow">
                 Lorem ipsum dolor sit amet consectetur. Senectus sit duis ac ut
@@ -281,13 +273,13 @@ const LandingPage = () => {
 
           <div className="relative overflow-hidden rounded-lg group">
             <img
-              src="https://via.placeholder.com/800x500.png?text=Los+Santos+Mafia"
-              alt="Los Santos Mafia"
+              src="https://placehold.co/800x500.png"
+              alt="Gangster"
               className="object-cover w-full h-full group-hover:scale-105 transition-transform"
             />
             <div className="absolute inset-0 bg-[#098c83]/30 flex flex-col justify-end p-4">
               <h3 className="text-2xl font-bold mb-2 text-white drop-shadow">
-                Los Santos Mafia
+                Gangster
               </h3>
               <p className="text-sm text-white drop-shadow">
                 Lorem ipsum dolor sit amet consectetur. Senectus sit duis ac ut
@@ -297,14 +289,14 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
-
+      <ImageCarousel images={images} currentIndex={currentIndex} />
       {/* SECTION: FINAL CTA */}
       <section className="py-16 px-4 md:px-16 text-center relative bg-[#098c83] text-white">
-        <img
-          src="https://via.placeholder.com/1200x400.png?text=Roleplay+Illustration"
+        {/* <img
+          src="https://placehold.co/1200x400.png?text=Roleplay+Illustration"
           alt="Roleplay Illustration"
           className="mx-auto mb-8 object-contain"
-        />
+        /> */}
         <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
           Ready to Start
         </h2>
@@ -315,12 +307,12 @@ const LandingPage = () => {
           Join the Server
         </button>
       </section>
-
+      
       {/* SECTION: FOOTER */}
       <footer className="bg-white py-4 text-center border-t border-[#ccc]">
         <p className="text-sm text-[#777]">
           &copy; 2024
-          <span className="text-[#098c83] ml-1 font-bold">Your Name</span>.
+          <span className="text-[#098c83] ml-1 font-bold">PRIME RP</span>.
           All rights reserved.
         </p>
       </footer>
