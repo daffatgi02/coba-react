@@ -107,7 +107,7 @@ const MonitoringPage = () => {
         {/* <FloatCard isCardOpen={isCardOpen} toggleCard={toggleCard} serverInfo={serverInfo} /> */}
         <div id="server-info" className="mb-8 shadow-2xl">
           <a href="https://discord.com/invite/primeindonesia" target="_blank" rel="noopener noreferrer">
-            <img src="https://storage.cloud.google.com/prime-rp-indonesia/banner.gif" alt="Connecting Banner" className="w-full h-auto rounded-lg" />
+            <img src="/assets/banner.gif" alt="Connecting Banner" className="w-full h-auto rounded-lg" />
           </a>
         </div>
         {/* <ImageCarousel images={images} /> */}
